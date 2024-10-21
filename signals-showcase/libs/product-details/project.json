@@ -1,0 +1,29 @@
+{
+  "name": "product-details",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/product-details/src",
+  "prefix": "showcase",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "libs/product-details/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/product-details/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/product-details/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

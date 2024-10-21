@@ -1,0 +1,29 @@
+{
+  "name": "core-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "core/api/src",
+  "prefix": "showcase",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "core/api/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "core/api/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "core/api/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "log-events",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/log-events/src",
+  "prefix": "showcase",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "libs/log-events/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/log-events/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/log-events/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

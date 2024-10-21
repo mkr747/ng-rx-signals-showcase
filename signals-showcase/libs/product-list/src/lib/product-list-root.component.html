@@ -1,0 +1,9 @@
+@for(item of items; track item.id) {
+  <showcase-product
+    [id]="''"
+    [header]="''"
+    (action)="''"
+  ></showcase-product>
+} @empty {
+  <span>No products</span>
+}
