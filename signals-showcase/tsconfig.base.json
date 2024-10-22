@@ -16,11 +16,12 @@
     "baseUrl": ".",
     "paths": {
       "@showcase/cart": ["libs/cart/src/index.ts"],
+      "@showcase/common-models": ["common/models/src/index.ts"],
       "@showcase/core-api": ["core/api/src/index.ts"],
+      "@showcase/core-store": ["core/store/src/index.ts"],
       "@showcase/log-events": ["libs/log-events/src/index.ts"],
       "@showcase/product-details": ["libs/product-details/src/index.ts"],
-      "@showcase/product-list": ["libs/product-list/src/index.ts"],
-      "@showcase/core-store": ["core/store/src/index.ts"]
+      "@showcase/product-list": ["libs/product-list/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

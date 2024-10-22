@@ -7,7 +7,7 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { concatMap, of, Subject } from 'rxjs';
+import { concatMap, EMPTY, of, Subject } from 'rxjs';
 
 const CartActionRequirements = {
   methods: type<{
@@ -33,6 +33,8 @@ export function withCartActionFeature() {
             return of(void 0);
           case CartActionType.SubmitCart:
             return of(void 0);
+          default:
+            return of(void 0);
         }
       }
 
@@ -42,7 +44,11 @@ export function withCartActionFeature() {
         },
         _listenToCartActionHandler() {
           return handleCartAction$.pipe(
-            concatMap((action) => handleAction(action))
+            concatMap((action) => {
+              handleAction(action);
+
+              return EMPTY;
+            })
           );
         },
       };

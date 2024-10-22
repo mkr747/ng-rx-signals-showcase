@@ -1,8 +1,25 @@
 <mat-card>
-  <mat-card-header> {{ header() }}  </mat-card-header>
-  <mat-card-actions align="end">
-    <input type="number" [ngModel]="amount()" (ngModelChange)="amount.set($event)" mat-input>
-    <button mat-button (click)="handleAddAction(amount())">Add</button>
-    <button mat-button (click)="handleCheckDetails()">Details</button>
-  </mat-card-actions>
+  <mat-card-content style="display:flex; justify-content: space-evenly; align-items: baseline;">
+      <mat-form-field style="width: 4rem">
+        <input
+          matInput
+          style="width: 4rem"
+          type="number"
+          [ngModel]="amount()"
+          (ngModelChange)="amount.set($event)"
+        />
+      </mat-form-field>
+      {{ name() }}
+      <div style="display:flex">
+
+        <button mat-raised-button (click)="handleAddAction(id(), amount())">
+          Add
+        </button>
+        <button mat-button (click)="handleCheckDetails(id())">Details</button>
+      </div>
+
+
+
+
+  </mat-card-content>
 </mat-card>

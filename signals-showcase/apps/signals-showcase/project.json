@@ -62,6 +62,9 @@
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
+        "options": {
+          "port": 4200
+        },
         "production": {
           "buildTarget": "signals-showcase:build:production"
         },

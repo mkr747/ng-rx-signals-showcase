@@ -1,0 +1,7 @@
+<section>
+  @for (item of filters(); track item.name) {
+    <mat-checkbox [ngModel]="item.value" (ngModelChange)="updateFilter.emit({ name: item.name, value: $event })" color="primary">
+      {{ item.name }}
+    </mat-checkbox>
+  }
+</section>

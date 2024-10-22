@@ -1,0 +1,16 @@
+<mat-table
+  [dataSource]="data()">
+
+  <ng-container matColumnDef="header">
+    <mat-header-cell *matHeaderCellDef> Component name </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{ element.header }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="content">
+    <mat-header-cell *matHeaderCellDef> Log </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{ element.content }} </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

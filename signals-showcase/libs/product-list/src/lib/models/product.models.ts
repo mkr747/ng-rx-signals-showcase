@@ -4,7 +4,7 @@ export enum ProductActionType {
 }
 
 export interface Order {
-  id: number;
+  id: string;
   amount: number;
 }
 
@@ -15,12 +15,7 @@ export type AddAction = {
 
 export type CheckDetailsAction = {
   type: ProductActionType.CheckDetails,
-  payload: number
+  payload: string
 }
 
 export type ProductAction = AddAction | CheckDetailsAction;
-
-export interface ProductItem {
-  id: string;
-  header: string;
-}

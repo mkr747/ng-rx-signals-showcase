@@ -1,30 +1,41 @@
 import {
+  patchState,
   signalStoreFeature,
   withHooks,
   withMethods,
   withState,
 } from '@ngrx/signals';
 
-import { EMPTY, pipe, switchMap } from 'rxjs';
+import { pipe, switchMap, tap } from 'rxjs';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { ProductItem } from '../../models/product.models';
+import { Product, PRODUCT_GLOBAL_STORE } from '@showcase/core-store';
+import { inject } from '@angular/core';
 
 const defaultProductsState = {
   items: [],
 };
 
 interface ProductsState {
-  items: ProductItem[];
+  items: Product[];
 }
 
 export function withProductsFeature() {
   return signalStoreFeature(
     withState<ProductsState>(defaultProductsState),
-    withMethods(() => ({
+    withMethods((store) => ({
+      updateItems(items: Product[]) {
+        patchState(store, { items });
+      },
+    })),
+    withMethods((store, productGlobalStore = inject(PRODUCT_GLOBAL_STORE)) => ({
       _loadItems: rxMethod<void>(
         pipe(
-          switchMap((x) => {
-            return EMPTY;
+          switchMap(() => {
+            return productGlobalStore.getProducts().pipe(
+              tap((data) => {
+                store.updateItems(data);
+              })
+            );
           })
         )
       ),

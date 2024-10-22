@@ -2,6 +2,9 @@ import { ChangeDetectionStrategy, Component, input, output, signal, ViewEncapsul
 import { FormsModule  } from "@angular/forms";
 import { MatCardModule } from '@angular/material/card';
 import { ProductAction, ProductActionType} from "../../models/product.models";
+import { MatButtonModule } from "@angular/material/button";
+import {MatInputModule} from '@angular/material/input';
+import { MatFormFieldModule } from "@angular/material/form-field";
 
 @Component({
   selector: 'showcase-product',
@@ -9,6 +12,9 @@ import { ProductAction, ProductActionType} from "../../models/product.models";
   imports: [
     FormsModule,
     MatCardModule,
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
   templateUrl: './product.component.html',
   encapsulation: ViewEncapsulation.Emulated,
@@ -16,12 +22,13 @@ import { ProductAction, ProductActionType} from "../../models/product.models";
 })
 export class ProductComponent {
   id = input.required<string>();
-  header = input.required<string>();
+  name = input.required<string>();
+  price = input.required<number>();
   action = output<ProductAction>();
 
   amount = signal(0);
 
-  handleAddAction(id: number, amount: number) {
+  handleAddAction(id: string, amount: number) {
     this.action.emit({
       type: ProductActionType.AddToCart,
       payload: {
@@ -31,7 +38,7 @@ export class ProductComponent {
     })
   }
 
-  handleCheckDetails(id: number) {
+  handleCheckDetails(id: string) {
     this.action.emit({
       type: ProductActionType.CheckDetails,
       payload: id,

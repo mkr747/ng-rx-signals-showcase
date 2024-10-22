@@ -1,8 +1,9 @@
-@for(item of items; track item.id) {
+@for(item of this.productLocalStore.items(); track item.id) {
   <showcase-product
-    [id]="''"
-    [header]="''"
-    (action)="''"
+    [id]="item.id"
+    [name]="item.name"
+    [price]="item.price"
+    (action)="productLocalStore.handleProductAction($event)"
   ></showcase-product>
 } @empty {
   <span>No products</span>
