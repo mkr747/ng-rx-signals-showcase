@@ -1,17 +1,15 @@
 <mat-card>
     <mat-card-header>
-        <mat-card-title>Title</mat-card-title>
-        <mat-card-subtitle>Subtitle</mat-card-subtitle>
+        <mat-card-title><h1>{{ details().name }}</h1></mat-card-title>
     </mat-card-header>
-    <img matCardImage alt="well" src="Card wide image source">
     <mat-card-content>
-        Text content
-    </mat-card-content>
-    <mat-card-actions align="start">
-        <button mat-button (click)="''">Action1</button>
+      <h5 mat-subheader>Properties:</h5>
+      <mat-list>
+        <div matListItemTitle>Effect: {{ details().effect }}</div>
+        <div matListItemTitle>Side effects: {{ details().sideEffects }}</div>
+        <div matListItemTitle>Special remarks: {{ details().characteristics }}</div>
+        <div matListItemTitle>Price: {{ details().price }}$</div>
+      </mat-list>
 
-    </mat-card-actions>
-    <mat-card-footer>
-        Footer
-    </mat-card-footer>
+    </mat-card-content>
 </mat-card>

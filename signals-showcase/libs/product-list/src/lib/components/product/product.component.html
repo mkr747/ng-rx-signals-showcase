@@ -1,25 +1,36 @@
-<mat-card>
-  <mat-card-content style="display:flex; justify-content: space-evenly; align-items: baseline;">
-      <mat-form-field style="width: 4rem">
+<mat-card style="margin: 1rem">
+  <mat-card-content
+    style="display: flex; justify-content: space-between; align-items: baseline"
+  >
+  <mat-icon fontIcon="science"></mat-icon>
+
+    <div>
+      <span>
+        {{ name() }}
+      </span>
+    </div>
+    <span> Price: {{ price() }}$ </span>
+  </mat-card-content>
+  <mat-card-footer>
+      <mat-form-field style="width:80%; padding:1rem; padding-bottom:0" >
+        <mat-label>Amount</mat-label>
         <input
           matInput
-          style="width: 4rem"
           type="number"
           [ngModel]="amount()"
           (ngModelChange)="amount.set($event)"
         />
-      </mat-form-field>
-      {{ name() }}
-      <div style="display:flex">
-
-        <button mat-raised-button (click)="handleAddAction(id(), amount())">
-          Add
+        <button
+          [disabled]="amount() <= 0"
+          matSuffix
+          mat-icon-button
+          (click)="handleAddAction(id(), amount())"
+        >
+          <mat-icon fontIcon="add"></mat-icon>
         </button>
-        <button mat-button (click)="handleCheckDetails(id())">Details</button>
-      </div>
-
-
-
-
-  </mat-card-content>
+      </mat-form-field>
+      <button matSuffix mat-icon-button (click)="handleCheckDetails(id())">
+        <mat-icon fontIcon="info"></mat-icon>
+      </button>
+  </mat-card-footer>
 </mat-card>

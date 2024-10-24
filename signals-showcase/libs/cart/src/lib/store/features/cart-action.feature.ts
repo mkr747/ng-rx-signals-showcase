@@ -1,5 +1,5 @@
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CartAction, CartActionType, ProductOrder } from './../../models/cart.model';
+import { CartAction, CartActionType } from './../../models/cart.model';
 import {
   signalStoreFeature,
   type,
@@ -11,9 +11,9 @@ import { concatMap, EMPTY, of, Subject } from 'rxjs';
 
 const CartActionRequirements = {
   methods: type<{
-    addProductOrder(productOrder: ProductOrder): void;
     removeProductOrder(id: string): void;
-    completeProductOrder(id: string): void;
+    completeProductsOrder(): void;
+    updateAmountProductOrder(id: string, amount: number): void;
   }>(),
 };
 
@@ -29,12 +29,17 @@ export function withCartActionFeature() {
       function handleAction(action: CartAction) {
         switch (action.type) {
           case CartActionType.RemoveFromCart:
-
+            store.removeProductOrder(action.payload);
             return of(void 0);
           case CartActionType.SubmitCart:
+            store.completeProductsOrder();
+            return of(void 0);
+          case CartActionType.ChangeAmount:
+            store.updateAmountProductOrder(action.payload.id, action.payload.updatedAmount);
+
             return of(void 0);
           default:
-            return of(void 0);
+            return EMPTY;
         }
       }
 

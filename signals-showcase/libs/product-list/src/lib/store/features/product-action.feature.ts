@@ -1,6 +1,7 @@
 import {
   signalStoreFeature,
   type,
+  watchState,
   withHooks,
   withMethods,
 } from '@ngrx/signals';
@@ -11,7 +12,7 @@ import {
 } from '../../models/product.models';
 import { concatMap, EMPTY, Subject } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CART_GLOBAL_STORE, Product, PRODUCT_GLOBAL_STORE } from '@showcase/core-store';
+import { CART_GLOBAL_STORE, LOG_GLOBAL_STORE, Product, PRODUCT_GLOBAL_STORE } from '@showcase/core-store';
 import { inject } from '@angular/core';
 
 const ProductActionRequirements = {
@@ -31,20 +32,22 @@ export function withProductActionFeature() {
       ) => {
         // another way of handling withMethods
         function handleAddToCart(payload: Order) {
-          const price = store.items().find(x => x.id === payload.id)?.price;
-          if (price == null) {
+          const item = store.items().find(x => x.id === payload.id);
+          if (item == null) {
             return;
           }
 
           cartGlobalStore.addProductOrder({
             id: payload.id,
+            name: item.name,
             amount: payload.amount,
             completed: false,
-            price: price
+            price: item.price
           });
         }
 
         function handleCheckDetails(payload: string) {
+          console.log(payload);
           productGlobalStore.setProductDetailId(payload);
         }
 
@@ -76,12 +79,21 @@ export function withProductActionFeature() {
         },
       })
     ),
-    withHooks((store) => ({
+    withHooks((store, logGlobalStore = inject(LOG_GLOBAL_STORE),
+    productGlobalStore = inject(PRODUCT_GLOBAL_STORE)) => ({
       onInit() {
         store
           ._listenToProductionActionHandler()
           .pipe(takeUntilDestroyed())
           .subscribe();
+
+        watchState(store, (state) => {
+          logGlobalStore.log('ProductList', `items: ${JSON.stringify(state.items)}`);
+        });
+
+        watchState(productGlobalStore, (state) => {
+          logGlobalStore.log('ProductList', `detailsId: ${JSON.stringify(state.data.productDetailId)}`);
+        })
       },
     }))
   );

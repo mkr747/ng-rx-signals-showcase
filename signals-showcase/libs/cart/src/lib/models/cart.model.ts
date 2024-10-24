@@ -25,10 +25,3 @@ export type SubmitCartAction = {
 }
 
 export type CartAction = ChangeAmountAction | RemoveFromCartAction | SubmitCartAction;
-
-export interface ProductOrder {
-  id: string;
-  amount: number;
-  completed: boolean;
-  price: number;
-}

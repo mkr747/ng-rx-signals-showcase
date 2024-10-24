@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { ProductApi } from '@showcase/core-api';
 import { Observable } from 'rxjs';
-import { Product } from './product.model';
+import { Product, ProductDetails } from './product.model';
 
 interface ProductGlobalStoreState {
   ui: {
@@ -28,8 +28,8 @@ export const ProductGlobalStore = signalStore(
     getProducts(): Observable<Product[]> {
       return productApi.getAll();
     },
-    getById(id: string) {
-      return productApi.get(id);
+    getById(id: string): Observable<ProductDetails> {
+      return productApi.get(id)
     },
   })),
   withMethods((store) => ({

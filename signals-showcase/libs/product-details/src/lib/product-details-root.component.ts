@@ -1,18 +1,21 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   ViewEncapsulation,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ProductDetailsLocalStore } from './store/product-details-local.store';
+import { ProductOverviewComponent } from './components/product-overview/product-overview.component';
 
 @Component({
   selector: 'showcase-product-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [ProductOverviewComponent],
   providers: [ProductDetailsLocalStore],
   templateUrl: './product-details-root.component.html',
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductDetailsRootComponent {}
+export class ProductDetailsRootComponent {
+  productDetailsLocalStore = inject(ProductDetailsLocalStore);
+}

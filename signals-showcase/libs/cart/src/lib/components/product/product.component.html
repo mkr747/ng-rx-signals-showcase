@@ -1,8 +1,7 @@
 <mat-card>
-  <mat-card-header> {{ header() }}  </mat-card-header>
+  <mat-card-header> {{ name() }}  </mat-card-header>
   <mat-card-actions align="end">
     <input type="number" [ngModel]="amount()" (ngModelChange)="amount.set($event)" mat-input>
     <button mat-button (click)="handleRemoveFromCart(id())">Remove</button>
-    <button mat-button (click)="handleSubmitCart()">Submit</button>
   </mat-card-actions>
 </mat-card>

@@ -3,6 +3,7 @@ import { FormsModule  } from "@angular/forms";
 import { MatCardModule } from '@angular/material/card';
 import { ProductAction, ProductActionType} from "../../models/product.models";
 import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon"
 import {MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 
@@ -14,7 +15,8 @@ import { MatFormFieldModule } from "@angular/material/form-field";
     MatCardModule,
     MatButtonModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatIconModule
   ],
   templateUrl: './product.component.html',
   encapsulation: ViewEncapsulation.Emulated,
@@ -35,7 +37,8 @@ export class ProductComponent {
         id: id,
         amount: amount
       }
-    })
+    });
+    this.amount.set(0);
   }
 
   handleCheckDetails(id: string) {

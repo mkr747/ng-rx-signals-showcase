@@ -1,35 +1,28 @@
 {
-  "name": "signals-showcase",
+  "name": "showcase-signal-state",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
-  "sourceRoot": "apps/signals-showcase/src",
+  "sourceRoot": "apps/02-signal-state/src",
   "tags": ["app"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/signals-showcase",
-        "index": "apps/signals-showcase/src/index.html",
-        "main": "apps/signals-showcase/src/main.ts",
-        "polyfills": [
-          "zone.js"
-        ],
-        "tsConfig": "apps/signals-showcase/tsconfig.app.json",
+        "outputPath": "dist/apps/02-signal-state",
+        "index": "apps/02-signal-state/src/index.html",
+        "main": "apps/02-signal-state/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/02-signal-state/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/signals-showcase/public"
+            "input": "apps/02-signal-state/public"
           }
         ],
-        "styles": [
-          "@angular/material/prebuilt-themes/azure-blue.css",
-          "apps/signals-showcase/src/styles.scss"
-        ],
+        "styles": ["apps/02-signal-state/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -61,15 +54,15 @@
     },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "port": 4202
+      },
       "configurations": {
-        "options": {
-          "port": 4200
-        },
         "production": {
-          "buildTarget": "signals-showcase:build:production"
+          "buildTarget": "showcase-signal-state:build:production"
         },
         "development": {
-          "buildTarget": "signals-showcase:build:development"
+          "buildTarget": "showcase-signal-state:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -77,25 +70,17 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "buildTarget": "signals-showcase:build"
+        "buildTarget": "showcase-signal-state:build"
       }
     },
     "lint": {
       "executor": "@nx/eslint:lint"
     },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
-      "options": {
-        "jestConfig": "apps/signals-showcase/jest.config.ts"
-      }
-    },
     "serve-static": {
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "signals-showcase:build",
+        "buildTarget": "showcase-signal-state:build",
+        "port": 4202,
         "spa": true
       }
     }

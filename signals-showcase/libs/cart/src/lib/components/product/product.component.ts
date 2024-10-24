@@ -18,10 +18,11 @@ import { CartAction, CartActionType } from '../../models/cart.model';
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CartComponent {
+export class ProductComponent {
   amount = signal(0);
   id = input.required<string>();
-  header = input.required<string>();
+  name = input.required<string>();
+  price = input.required<number>()
   action = output<CartAction>();
 
   handleUpdateAmount(id: string, amount: number) {
@@ -38,13 +39,6 @@ export class CartComponent {
     this.action.emit({
       type: CartActionType.RemoveFromCart,
       payload: id,
-    });
-  }
-
-  handleSubmitCart(ids: string[]) {
-    this.action.emit({
-      type: CartActionType.SubmitCart,
-      payload: ids,
     });
   }
 }

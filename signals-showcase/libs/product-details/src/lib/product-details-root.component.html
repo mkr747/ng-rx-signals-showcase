@@ -1,1 +1,4 @@
-<p>cart works!</p>
+@if(productDetailsLocalStore.details()) {
+<showcase-product-overview [details]="productDetailsLocalStore.details()!">
+</showcase-product-overview>
+}

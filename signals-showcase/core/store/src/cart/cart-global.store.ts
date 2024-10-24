@@ -42,11 +42,18 @@ export const CartGlobalStore = signalStore(
       }));
     };
 
+    const removeProduct = (id: string) => {
+      patchState(store, (state) => ({
+        data: { ...state.data, productOrders: state.data.productOrders.filter(x => x.id !== id)}
+      }))
+    }
+
     const updateIsLoading = (isLoading: boolean) => {
       patchState(store, (state) => ({ ui: { ...state.ui, isLoading } }));
     };
 
     return {
+      removeProduct,
       patchProductOrder,
       addProductOrder,
       updateIsLoading,

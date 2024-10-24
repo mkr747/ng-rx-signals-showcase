@@ -3,18 +3,22 @@ import { of } from 'rxjs';
 
 export class ProductApi {
   get(id: string){
-    return of(data.filter(x => x.id === id).map(x => ({
-      id: x.id,
-      name: x.name,
-      effect: x.effect,
-      sideEffects: x.sideEffects,
-      characteristics: x.characteristics,
-      time: x.time,
-      difficulty: x.difficulty,
-      ingredients: x.ingredients,
-      inventors: x.inventors,
-      manufacturer: x.manufacturer,
-    })));
+    const product = data.find(x => x.id === id);
+
+    return of(
+      {
+        id: product?.id ?? '',
+        name: product?.name ?? '',
+        effect: product?.effect ?? '-',
+        sideEffects: product?.sideEffects ?? '-',
+        characteristics: product?.characteristics ?? '-',
+        time: product?.time ?? '-',
+        difficulty: product?.difficulty ?? '-',
+        ingredients: product?.ingredients ?? [],
+        inventors: product?.inventors ?? [],
+        manufacturer: product?.manufacturer ?? '-',
+        price: product?.price ?? 0,
+      });
   }
 
   getAll() {

@@ -1,3 +1,4 @@
+import { CartGlobalStore } from './../../../../../../core/store/src/cart/cart-global.store';
 import {
   deepComputed,
   type,
@@ -5,16 +6,19 @@ import {
   signalStoreFeature,
   withComputed,
   withMethods,
+  withHooks,
 } from '@ngrx/signals';
 import {
   addEntity,
   entityConfig,
   removeEntity,
+  updateAllEntities,
   updateEntity,
   withEntities,
 } from '@ngrx/signals/entities';
-import { ProductOrder } from '../../models/cart.model';
-import { computed } from '@angular/core';
+import { computed, effect, inject, untracked } from '@angular/core';
+import { CART_GLOBAL_STORE, ProductOrder } from '@showcase/core-store';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 const productOrderEntitiesConfig = entityConfig({
   entity: type<ProductOrder>(),
@@ -29,7 +33,7 @@ export function withCartFeature() {
     withComputed(({ _productOrdersEntities }) => ({
       productOrders: _productOrdersEntities,
     })),
-    withMethods((store) => ({
+    withMethods((store, cartGlobalStore = inject(CART_GLOBAL_STORE)) => ({
       addProductOrder(productOrder: ProductOrder) {
         patchState(
           store,
@@ -38,35 +42,31 @@ export function withCartFeature() {
       },
       removeProductOrder(id: string) {
         patchState(store, removeEntity(id, { collection: '_productOrders' }));
+        cartGlobalStore.removeProduct(id);
       },
-      completeProductOrder(id: string) {
+      updateAmountProductOrder(id: string, amount: number) {
+        patchState(store,
+          updateEntity({ id, changes: ({ amount: amount }) }, { collection: '_productOrders' })
+        )
+      },
+      completeProductsOrder() {
         patchState(
           store,
-          updateEntity(
-            {
-              id,
-              changes: (productOrder) => {
-                if (productOrder.amount <= 0) {
-                  return { completed: false };
-                }
-
-                return { completed: true };
-              },
-            },
+          updateAllEntities(({ completed: true}),
             { collection: '_productOrders' }
           )
         );
       },
     })),
-    withComputed((store) => ({
+    withComputed((state) => ({
       _orderedProduct: computed<ProductOrder[]>(() =>
-        store.productOrders().filter((x) => x.completed)
+        state.productOrders().filter((x) => x.completed)
       ),
     })),
-    withComputed((store) => ({
+    withComputed((state) => ({
       summary: deepComputed(() => ({
-        orderedProducts: store._orderedProduct(),
-        price: store
+        orderedProducts: state._orderedProduct(),
+        price: state
           ._orderedProduct()
           .reduce((sum, current) => sum + current.price * current.amount, 0),
         details: deepComputed(() => ({
@@ -74,6 +74,18 @@ export function withCartFeature() {
           address: 'Hogwart',
         })),
       })),
+    })),
+    withHooks((store, cartGlobalStore = inject(CART_GLOBAL_STORE)) => ({
+      onInit() {
+        effect(() => {
+          const products = cartGlobalStore.data.productOrders();
+          untracked(() => {
+            for(const product of products) {
+              store.addProductOrder(product);
+            }
+          })
+        })
+      }
     }))
   );
 }

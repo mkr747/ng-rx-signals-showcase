@@ -18,19 +18,22 @@ export function withFilterFeature() {
         ProductList: true,
       },
     }),
-    withComputed((store) => ({
+    withComputed((state) => ({
       filterTableValue: computed<FilterValue[]>(() =>
-        Object.entries(store.filter()).map(([key, value]) => ({
-          name: key,
+        Object.entries(state.filter()).map(([key, value]) => ({
+          name: key as ComponentType,
           value: value,
         }))
       ),
     })),
     withMethods((store) => ({
-      updateFilter(type: ComponentType, value: boolean) {
-        patchState(store, (state) => ({
-          filter: { ...state.filter, type: value },
-        }));
+      updateFilter(filterValue: FilterValue) {
+        patchState(store, (state) => {
+          const filter = state.filter;
+          filter[filterValue.name] = filterValue.value;
+
+          return { filter: { ...filter } };
+        });
       },
     }))
   );

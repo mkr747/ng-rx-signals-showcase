@@ -1,2 +1,5 @@
-<showcase-filter [filters]="logLocalStore.filterTableValue()"></showcase-filter>
+<showcase-filter
+  [filters]="logLocalStore.filterTableValue()"
+  (updateFilter)="logLocalStore.updateFilter($event)"
+></showcase-filter>
 <showcase-table [data]="logLocalStore.filteredLogs()"></showcase-table>

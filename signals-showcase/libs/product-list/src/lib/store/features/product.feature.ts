@@ -12,7 +12,7 @@ import { Product, PRODUCT_GLOBAL_STORE } from '@showcase/core-store';
 import { inject } from '@angular/core';
 
 const defaultProductsState = {
-  items: [],
+  items: new Array<Product>()
 };
 
 interface ProductsState {
@@ -21,7 +21,7 @@ interface ProductsState {
 
 export function withProductsFeature() {
   return signalStoreFeature(
-    withState<ProductsState>(defaultProductsState),
+    withState(defaultProductsState),
     withMethods((store) => ({
       updateItems(items: Product[]) {
         patchState(store, { items });
