@@ -5,7 +5,6 @@ import {
   type,
   withHooks,
   withMethods,
-  withState,
 } from '@ngrx/signals';
 import { concatMap, EMPTY, of, Subject } from 'rxjs';
 
@@ -20,11 +19,6 @@ const CartActionRequirements = {
 export function withCartActionFeature() {
   return signalStoreFeature(
     CartActionRequirements,
-    withState<{
-      isLoading: boolean;
-    }>({
-      isLoading: false,
-    }),
     withMethods((store, handleCartAction$ = new Subject<CartAction>()) => {
       function handleAction(action: CartAction) {
         switch (action.type) {

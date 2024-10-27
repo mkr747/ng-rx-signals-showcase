@@ -33,6 +33,7 @@ export function withProductActionFeature() {
         // another way of handling withMethods
         function handleAddToCart(payload: Order) {
           const item = store.items().find(x => x.id === payload.id);
+
           if (item == null) {
             return;
           }
@@ -47,7 +48,6 @@ export function withProductActionFeature() {
         }
 
         function handleCheckDetails(payload: string) {
-          console.log(payload);
           productGlobalStore.setProductDetailId(payload);
         }
 

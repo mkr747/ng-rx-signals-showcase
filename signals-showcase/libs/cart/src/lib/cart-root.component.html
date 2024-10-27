@@ -3,6 +3,7 @@
     [id]="item.id"
     [name]="item.name"
     [price]="item.price"
+    [amount]="item.amount"
     (action)="cartLocalStore.handleCartAction($event)"
   ></showcase-product>
 } @empty {

@@ -18,20 +18,27 @@ export const CartGlobalStore = signalStore(
     },
   }),
   withMethods((store) => {
+    // spaghetti code, highly not recommended
     const patchProductOrder = (productOrder: ProductOrder) => {
-      const productOrders = [...store.data.productOrders()];
-      productOrders.map((product) =>
+      const productOrders = store.data.productOrders().map((product) =>
         product.id === productOrder.id ? productOrder : product
       );
 
       patchState(store, (state) => ({
-        data: { ...state.data, productOrders },
+        data: { ...state.data, productOrders: productOrders },
       }));
     };
 
     const addProductOrder = (productOrder: ProductOrder) => {
-      if (store.data.productOrders().find((p) => p.id === productOrder.id)) {
-        patchProductOrder(productOrder);
+      const existingProductOrder = store.data.productOrders().find((p) => p.id === productOrder.id)
+      if (existingProductOrder) {
+        const newProductOrder: ProductOrder = {
+          ...productOrder,
+          amount: existingProductOrder.amount + productOrder.amount
+        };
+
+
+        return patchProductOrder(newProductOrder);
       }
 
       patchState(store, (state) => ({

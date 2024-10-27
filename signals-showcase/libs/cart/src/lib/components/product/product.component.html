@@ -1,7 +1,14 @@
-<mat-card>
-  <mat-card-header> {{ name() }}  </mat-card-header>
-  <mat-card-actions align="end">
-    <input type="number" [ngModel]="amount()" (ngModelChange)="amount.set($event)" mat-input>
+<mat-card style="margin: 1rem">
+  <mat-card-actions align="start" style="justify-content: space-between">
+    <span>{{ name() }}</span>
+    <mat-form-field style="width: 80%; padding: 1rem; padding-bottom: 0">
+      <input
+        matInput
+        type="number"
+        [ngModel]="amount()"
+        (ngModelChange)="handleUpdateAmount(id(), $event)"
+      />
+    </mat-form-field>
     <button mat-button (click)="handleRemoveFromCart(id())">Remove</button>
   </mat-card-actions>
 </mat-card>

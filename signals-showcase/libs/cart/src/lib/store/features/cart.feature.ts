@@ -1,4 +1,4 @@
-import { CartGlobalStore } from './../../../../../../core/store/src/cart/cart-global.store';
+import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import {
   deepComputed,
   type,
@@ -7,6 +7,7 @@ import {
   withComputed,
   withMethods,
   withHooks,
+  watchState,
 } from '@ngrx/signals';
 import {
   addEntity,
@@ -16,9 +17,9 @@ import {
   updateEntity,
   withEntities,
 } from '@ngrx/signals/entities';
-import { computed, effect, inject, untracked } from '@angular/core';
-import { CART_GLOBAL_STORE, ProductOrder } from '@showcase/core-store';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { computed, inject } from '@angular/core';
+import { CART_GLOBAL_STORE, LOG_GLOBAL_STORE, ProductOrder } from '@showcase/core-store';
+import { concatMap, of, pipe } from 'rxjs';
 
 const productOrderEntitiesConfig = entityConfig({
   entity: type<ProductOrder>(),
@@ -58,6 +59,21 @@ export function withCartFeature() {
         );
       },
     })),
+    withMethods((store) => ({
+      addProductOrdersRx: rxMethod<ProductOrder[]>(pipe(
+        concatMap((products) => {
+          for(const product of products) {
+            if (store._productOrdersEntities().findIndex(x => x.id === product.id) !== -1) {
+              store.updateAmountProductOrder(product.id, product.amount);
+            }
+
+            store.addProductOrder(product);
+          }
+
+          return of(void 0);
+        })
+      ))
+    })),
     withComputed((state) => ({
       _orderedProduct: computed<ProductOrder[]>(() =>
         state.productOrders().filter((x) => x.completed)
@@ -75,15 +91,16 @@ export function withCartFeature() {
         })),
       })),
     })),
-    withHooks((store, cartGlobalStore = inject(CART_GLOBAL_STORE)) => ({
+    withHooks((store, cartGlobalStore = inject(CART_GLOBAL_STORE), logGlobalStore = inject(LOG_GLOBAL_STORE)) => ({
       onInit() {
-        effect(() => {
-          const products = cartGlobalStore.data.productOrders();
-          untracked(() => {
-            for(const product of products) {
-              store.addProductOrder(product);
-            }
-          })
+        store.addProductOrdersRx(cartGlobalStore.data.productOrders);
+
+        watchState(store, (state) => {
+          logGlobalStore.log('Cart', `Entities: ${JSON.stringify(state._productOrdersEntityMap)}`);
+        });
+
+        watchState(cartGlobalStore, (state) => {
+          logGlobalStore.log('Cart', `productOrders: ${JSON.stringify(state.data.productOrders)}`);
         })
       }
     }))
