@@ -3,26 +3,26 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
-  "sourceRoot": "apps/01-signal-store/src",
+  "sourceRoot": "apps/02-signal-store/src",
   "tags": ["app"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/01-signal-store",
-        "index": "apps/01-signal-store/src/index.html",
-        "main": "apps/01-signal-store/src/main.ts",
+        "outputPath": "dist/apps/02-signal-store",
+        "index": "apps/02-signal-store/src/index.html",
+        "main": "apps/02-signal-store/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/01-signal-store/tsconfig.app.json",
+        "tsConfig": "apps/02-signal-store/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/01-signal-store/public"
+            "input": "apps/02-signal-store/public"
           }
         ],
-        "styles": ["apps/01-signal-store/src/styles.scss"],
+        "styles": ["apps/02-signal-store/src/styles.scss"],
         "scripts": []
       },
       "configurations": {

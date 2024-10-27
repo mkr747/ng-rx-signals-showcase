@@ -6,11 +6,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'app-root',
   template: `
     <h1> Signal store counter </h1>
-    <p>Count : {{  }} </p>
-    <p>Double Count: {{ }} </p>
+    <p>Count : {{ '' }} </p>
+    <p>Double Count: {{ '' }} </p>
+    <p>Updated with: {{ '' }}</p>
 
-    <button (click)="">Increment</button>
-    <button (click)="">Decrement</button>
+    <button (click)="''">Increment</button>
+    <button (click)="''">Decrement</button>
      `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
